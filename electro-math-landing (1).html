@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electro-Math PRO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #f5f4f2;
+  --surface:  #efeeec;
+  --line:     #dddbd7;
+  --muted:    #b0aea9;
+  --text-2:   #7a7874;
+  --text-1:   #2a2927;
+  --amber:    #c8842a;
+  --amber-bg: #faf3e8;
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+
+
+/* NAV */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background: rgba(245,244,242,0.88);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-icon {
+  width: 28px; height: 28px;
+  background: var(--text-1);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--bg);
+  font-size: 13px;
+}
+
+.nav-wordmark {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-1);
+}
+
+.nav-wordmark sup {
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-left: 4px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--text-1); }
+
+.nav-dl {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--text-1) !important;
+  border: 1px solid var(--line) !important;
+  padding: 6px 14px !important;
+  border-radius: 20px !important;
+  transition: background 0.15s, border-color 0.15s !important;
+}
+.nav-dl:hover { background: var(--surface) !important; border-color: var(--muted) !important; }
+
+/* HERO */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0 40px 88px;
+  max-width: 900px;
+}
+
+.hero-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-tag::before {
+  content: '';
+  display: inline-block;
+  width: 5px; height: 5px;
+  background: var(--amber);
+  border-radius: 50%;
+}
+
+.hero h1 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(50px, 7.5vw, 88px);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  color: var(--text-1);
+  margin-bottom: 28px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--amber);
+}
+
+.hero-sub {
+  font-size: clamp(15px, 1.8vw, 17px);
+  font-weight: 300;
+  color: var(--text-2);
+  max-width: 420px;
+  line-height: 1.75;
+  margin-bottom: 44px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-dl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--text-1);
+  color: var(--bg);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  padding: 12px 22px;
+  border-radius: 24px;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.btn-dl:hover { opacity: 0.82; transform: translateY(-1px); }
+.btn-dl svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-2);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  padding: 12px 22px;
+  border-radius: 24px;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-ghost:hover { color: var(--text-1); border-color: var(--muted); }
+
+/* NUMBERS */
+.numbers {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.number-cell {
+  flex: 1;
+  padding: 32px 40px;
+  border-right: 1px solid var(--line);
+}
+.number-cell:last-child { border-right: none; }
+
+.number-val {
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  color: var(--text-1);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.number-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* SCREENSHOTS */
+.screenshots {
+  padding: 100px 40px;
+  overflow: hidden;
+}
+
+.section-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.screens-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-top: 48px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.screens-row::-webkit-scrollbar { display: none; }
+
+.screen {
+  flex: 0 0 auto;
+  width: 175px;
+  background: #fff;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: transform 0.25s ease;
+}
+
+.screen:nth-child(even) { margin-top: 24px; }
+.screen:hover { transform: translateY(-6px); }
+
+.screen img {
+  width: 100%;
+  display: block;
+}
+
+/* FEATURES */
+.features {
+  padding: 100px 40px;
+  border-top: 1px solid var(--line);
+}
+
+.features-header {
+  margin-bottom: 64px;
+  max-width: 500px;
+}
+
+.features-header h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+  color: var(--text-1);
+  margin-top: 16px;
+}
+
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.feat {
+  background: var(--bg);
+  padding: 36px 32px;
+  transition: background 0.15s;
+}
+.feat:hover { background: #f0efed; }
+
+.feat-num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+
+.feat-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-1);
+  margin-bottom: 10px;
+}
+
+.feat-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+/* DOWNLOAD */
+.download {
+  padding: 100px 40px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.dl-text h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.dl-text p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.75;
+  max-width: 340px;
+  margin-bottom: 36px;
+}
+
+.dl-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: 16px;
+}
+
+.dl-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.dl-icon {
+  width: 48px; height: 48px;
+  background: var(--text-1);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--bg);
+  font-size: 22px;
+}
+
+.dl-card h3 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+.dl-version {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--amber);
+  letter-spacing: 0.06em;
+  background: var(--amber-bg);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #e8d4b0;
+}
+
+.btn-apk {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--text-1);
+  color: var(--bg);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 13px 24px;
+  border-radius: 24px;
+  width: 100%;
+  justify-content: center;
+  transition: opacity 0.15s;
+  letter-spacing: 0.01em;
+}
+.btn-apk:hover { opacity: 0.8; }
+.btn-apk svg { width: 14px; height: 14px; }
+
+/* SUPPORT */
+.support {
+  padding: 100px 40px;
+  border-top: 1px solid var(--line);
+  max-width: 680px;
+}
+
+.support-header { margin-bottom: 48px; }
+
+.support-header h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(30px, 3.5vw, 44px);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+  margin-top: 16px;
+}
+
+.support-header p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-top: 12px;
+}
+
+.form-group { margin-bottom: 20px; }
+
+label {
+  display: block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+input, select, textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text-1);
+  font-family: 'DM Sans', sans-serif;
+  border-radius: var(--r-md);
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
+
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23b0aea9' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+select option { background: var(--bg); }
+
+input:focus, select:focus, textarea:focus { border-color: var(--text-1); }
+
+textarea {
+  resize: vertical;
+  min-height: 130px;
+  line-height: 1.65;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.btn-send {
+  width: 100%;
+  background: var(--text-1);
+  color: var(--bg);
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  margin-top: 6px;
+}
+.btn-send:hover { opacity: 0.8; }
+.btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-success { display: none; padding: 40px 0; }
+
+.form-success .ok {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  background: var(--amber-bg);
+  border: 1px solid #e8d4b0;
+  padding: 6px 12px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.form-success p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-2);
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--text-1); }
+
+/* REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: var(--text-1);
+  color: var(--bg);
+  font-size: 13px;
+  padding: 12px 22px;
+  border-radius: 24px;
+  z-index: 999;
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 0 20px 72px; }
+  .numbers { flex-wrap: wrap; }
+  .number-cell { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--line); }
+  .screenshots, .features, .download, .support { padding-left: 20px; padding-right: 20px; }
+  footer { padding: 24px 20px; }
+  .feat-grid { grid-template-columns: 1fr; }
+  .download { grid-template-columns: 1fr; gap: 40px; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-icon">⚡</div>
+    <div class="nav-wordmark">Electro-Math<sup>PRO</sup></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Funciones</a></li>
+    <li><a href="#screenshots">Pantallas</a></li>
+    <li><a href="#support">Soporte</a></li>
+    <li><a href="https://drive.google.com/file/d/1uQc2PMESD2LOYK31gQs8ZSrurJpqiWOK/view?usp=sharing" target="_blank" class="nav-dl">Descargar APK</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">Ingeniería en Electrónica · v2.1</p>
+  <h1>La herramienta<br>que <em>faltaba</em><br>en tu carrera.</h1>
+  <p class="hero-sub">Cálculos, fórmulas, lógica digital y recursos de referencia. Todo en una sola app diseñada para el ingeniero moderno.</p>
+  <div class="hero-actions">
+    <a href="https://drive.google.com/file/d/1uQc2PMESD2LOYK31gQs8ZSrurJpqiWOK/view?usp=sharing" target="_blank" class="btn-dl">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 2v8M5 7l3 3 3-3M2 12h12"/>
+      </svg>
+      Descargar APK
+    </a>
+    <a href="#screenshots" class="btn-ghost">Ver capturas</a>
+  </div>
+</section>
+
+<!-- NUMBERS -->
+<div class="numbers">
+  <div class="number-cell">
+    <div class="number-val">9+</div>
+    <div class="number-label">Calculadoras</div>
+  </div>
+  <div class="number-cell">
+    <div class="number-val">40+</div>
+    <div class="number-label">Fórmulas</div>
+  </div>
+  <div class="number-cell">
+    <div class="number-val">5</div>
+    <div class="number-label">Secciones</div>
+  </div>
+  <div class="number-cell">
+    <div class="number-val">v2.1</div>
+    <div class="number-label">Versión actual</div>
+  </div>
+</div>
+
+<!-- SCREENSHOTS -->
+<section class="screenshots" id="screenshots">
+  <span class="section-label">Capturas de pantalla</span>
+  <div class="screens-row">
+    <div class="screen"><img src="/mnt/user-data/uploads/IMG_20260426_150835.jpg" alt="Cálculos"></div>
+    <div class="screen"><img src="/mnt/user-data/uploads/IMG_20260426_150845.jpg" alt="Fórmulas"></div>
+    <div class="screen"><img src="/mnt/user-data/uploads/IMG_20260426_150855.jpg" alt="Lógica"></div>
+    <div class="screen"><img src="/mnt/user-data/uploads/IMG_20260426_150916.jpg" alt="Lógica canvas"></div>
+    <div class="screen"><img src="/mnt/user-data/uploads/IMG_20260426_150927.jpg" alt="Proyectos"></div>
+    <div class="screen"><img src="/mnt/user-data/uploads/IMG_20260426_150936.jpg" alt="Recursos"></div>
+    <div class="screen"><img src="/mnt/user-data/uploads/IMG_20260426_150945.jpg" alt="Config"></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features reveal" id="features">
+  <div class="features-header">
+    <span class="section-label">Funciones</span>
+    <h2>Todo lo que necesita<br>un estudiante serio.</h2>
+  </div>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="feat-num">01</div>
+      <div class="feat-title">Cálculos básicos</div>
+      <div class="feat-desc">Ley de Ohm, serie y paralelo, capacitores, potencia eléctrica. Resultados con diagrama esquemático en tiempo real.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">02</div>
+      <div class="feat-title">Fórmulas de referencia</div>
+      <div class="feat-desc">40+ fórmulas en 5 secciones: fundamentos, señales, semiconductores, amplificadores y digital.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">03</div>
+      <div class="feat-title">Simulador lógico</div>
+      <div class="feat-desc">Canvas interactivo para construir circuitos digitales. AND, OR, NAND, NOR, Flip-Flops y más.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">04</div>
+      <div class="feat-title">Gestión de proyectos</div>
+      <div class="feat-desc">Organiza tus proyectos con estados (Planeado, Activo, Listo) y categorías analógico / digital.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">05</div>
+      <div class="feat-title">Recursos rápidos</div>
+      <div class="feat-desc">Código de colores de resistencias, encapsulados SMD comunes y guías de seguridad de laboratorio.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">06</div>
+      <div class="feat-title">Configuración PRO</div>
+      <div class="feat-desc">Notación científica, historial de cálculos, modo oscuro y alta precisión con 8 decimales.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="download reveal" id="download">
+  <div class="dl-text">
+    <span class="section-label">Descarga</span>
+    <h2>Sin tiendas.<br>Directo al dispositivo.</h2>
+    <p>APK disponible de forma inmediata. Instala en segundos en cualquier dispositivo Android 7.0 o superior.</p>
+    <a href="https://drive.google.com/file/d/1uQc2PMESD2LOYK31gQs8ZSrurJpqiWOK/view?usp=sharing" target="_blank" class="btn-dl">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 2v8M5 7l3 3 3-3M2 12h12"/>
+      </svg>
+      Descargar APK — v2.1
+    </a>
+    <div class="dl-meta">Android 7.0+ · Nexus Cúspide © 2026</div>
+  </div>
+
+  <div class="dl-card">
+    <div class="dl-icon">⚡</div>
+    <h3>Electro-Math PRO</h3>
+    <span class="dl-version">v2.1 — Stable</span>
+    <div style="width:100%;height:1px;background:var(--line);"></div>
+    <div style="font-size:13px;color:var(--text-2);line-height:1.9;font-weight:300;">
+      <div>Plataforma: Android</div>
+      <div>Tamaño: ~8 MB</div>
+      <div>Idioma: Español</div>
+      <div>Desarrollador: Nexus Cúspide</div>
+    </div>
+    <a href="https://drive.google.com/file/d/1uQc2PMESD2LOYK31gQs8ZSrurJpqiWOK/view?usp=sharing" target="_blank" class="btn-apk">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 2v8M5 7l3 3 3-3M2 12h12"/>
+      </svg>
+      Descargar gratis
+    </a>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section class="support reveal" id="support">
+  <div class="support-header">
+    <span class="section-label">Soporte</span>
+    <h2>¿Algo no funciona<br>como esperabas?</h2>
+    <p>Reporta errores o envía sugerencias. Leemos cada mensaje y respondemos a la brevedad.</p>
+  </div>
+
+  <form id="supportForm" action="https://formspree.io/f/mjgjdyyd" method="POST">
+    <input type="hidden" name="_subject" value="[Electro-Math PRO] Reporte / Sugerencia">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tipo">Tipo de mensaje</label>
+        <select id="tipo" name="tipo" required>
+          <option value="" disabled selected>Seleccionar…</option>
+          <option value="bug">Error / Bug</option>
+          <option value="sugerencia">Sugerencia</option>
+          <option value="calculo">Cálculo incorrecto</option>
+          <option value="ui">Problema de interfaz</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="seccion">Sección afectada</label>
+        <select id="seccion" name="seccion">
+          <option value="" disabled selected>Seleccionar…</option>
+          <option>Cálculos</option>
+          <option>Fórmulas</option>
+          <option>Lógica Digital</option>
+          <option>Proyectos</option>
+          <option>Recursos</option>
+          <option>Configuración</option>
+          <option>General</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Tu correo (para responderte)</label>
+      <input type="email" id="email" name="email" placeholder="correo@ejemplo.com">
+    </div>
+
+    <div class="form-group">
+      <label for="detalles">Descripción *</label>
+      <textarea id="detalles" name="detalles" placeholder="Describe qué ocurrió, qué esperabas que pasara, y los pasos para reproducirlo si aplica…" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="device">Dispositivo (opcional)</label>
+      <input type="text" id="device" name="device" placeholder="Ej. Android 12 · Samsung Galaxy A52">
+    </div>
+
+    <button type="submit" class="btn-send" id="submitBtn">Enviar reporte</button>
+  </form>
+
+  <div class="form-success" id="formSuccess">
+    <span class="ok">Mensaje enviado</span>
+    <p>Gracias por tu reporte. Te responderemos pronto a través de <strong>nexuscuspide@gmail.com</strong>.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">ELECTRO-MATH PRO · Nexus Cúspide · Tehuacán, Pue.</div>
+  <ul class="footer-links">
+    <li><a href="#features">Funciones</a></li>
+    <li><a href="#screenshots">Pantallas</a></li>
+    <li><a href="#support">Soporte</a></li>
+    <li><a href="mailto:nexuscuspide@gmail.com">Contacto</a></li>
+  </ul>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+document.getElementById('supportForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Enviando…';
+  btn.disabled = true;
+  try {
+    const r = await fetch(e.target.action, { method: 'POST', body: new FormData(e.target), headers: { Accept: 'application/json' } });
+    if (r.ok) {
+      document.getElementById('supportForm').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+      toast('Reporte enviado correctamente');
+    } else throw new Error();
+  } catch {
+    toast('Error al enviar. Escríbenos a nexuscuspide@gmail.com');
+    btn.textContent = 'Enviar reporte';
+    btn.disabled = false;
+  }
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
